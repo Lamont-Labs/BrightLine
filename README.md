@@ -18,3 +18,4 @@ See `docs/ARCHITECTURE.md` for detailed structure.
 Run the verification script to ensure determinism:
 ```bash
 bash verify.sh
+[![BrightLine CI](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml/badge.svg)](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml)
