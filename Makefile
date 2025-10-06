@@ -1,13 +1,13 @@
 # FILE: Makefile
 PY := python
 
+define TAB
+endef
+
 .PHONY: demo verify clean
 
 demo:
-	$(PY) -m uvicorn src.api.main:app --port 8080 --reload &
-	sleep 3
-	curl -s http://127.0.0.1:8080/health || true
-	pkill -f "uvicorn" || true
+	$(PY) -m uvicorn src.api.main:app --port 8080 --reload & sleep 3 && curl -s http://127.0.0.1:8080/health || true; pkill -f "uvicorn" || true
 
 verify:
 	$(PY) - <<'PY'
