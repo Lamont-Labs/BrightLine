@@ -13,3 +13,6 @@ verify:
 
 clean:
 > @find . -type d -name '__pycache__' -prune -exec rm -rf {} +
+verify:
+> chmod +x scripts/verify.sh
+> ./scripts/verify.sh
