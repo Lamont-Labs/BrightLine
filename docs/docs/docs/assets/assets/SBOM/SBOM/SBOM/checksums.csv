@@ -1,0 +1,6 @@
+# FILE: SBOM/checksums.csv
+file,sha256
+README.md,sha256-demo-0001
+src/api/main.py,sha256-demo-0002
+src/core/overlap.py,sha256-demo-0003
+verify.sh,sha256-demo-0004
