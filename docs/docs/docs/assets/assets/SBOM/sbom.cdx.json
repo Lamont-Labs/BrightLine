@@ -1,0 +1,9 @@
+# FILE: SBOM/sbom.cdx.json
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "components": [
+    {"name": "fastapi", "version": "0.111.0"},
+    {"name": "uvicorn", "version": "0.30.0"}
+  ]
+}
