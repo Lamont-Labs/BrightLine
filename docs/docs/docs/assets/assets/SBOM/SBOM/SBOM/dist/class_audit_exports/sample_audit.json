@@ -1,0 +1,8 @@
+# FILE: dist/class_audit_exports/sample_audit.json
+{
+  "assignment": "ENG101 Essay 1",
+  "overlap_score_avg": 0.18,
+  "students": 20,
+  "flagged": 2,
+  "generated_at": "2025-10-05T00:00:00Z"
+}
