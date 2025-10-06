@@ -1,3 +1,4 @@
 typer==0.12.3
 pyyaml==6.0.1
 cyclonedx-python-lib==4.0.1
+uvicorn==0.30.1
