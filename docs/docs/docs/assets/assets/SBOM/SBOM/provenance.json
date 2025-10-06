@@ -1,0 +1,8 @@
+# FILE: SBOM/provenance.json
+{
+  "project": "BrightLine",
+  "version": "v2.0",
+  "generated_at": "2025-10-05T00:00:00Z",
+  "commit": "demo-seed",
+  "verifier": "verify.sh"
+}
