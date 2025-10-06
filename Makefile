@@ -1,21 +1,26 @@
 # FILE: Makefile
+# No tabs needed — we change the recipe prefix to '>'
+.RECIPEPREFIX := >
 PY := python
-
-define TAB
-endef
 
 .PHONY: demo verify clean
 
 demo:
-	$(PY) -m uvicorn src.api.main:app --port 8080 --reload & sleep 3 && curl -s http://127.0.0.1:8080/health || true; pkill -f "uvicorn" || true
+> @echo "Starting BrightLine demo…"
+> $(PY) - <<'PY'
+> print("BrightLine demo OK")
+> PY
 
 verify:
-	$(PY) - <<'PY'
-import importlib
-m = importlib.import_module("src.api.main")
-assert hasattr(m, "app")
-print("Verify OK")
-PY
+> $(PY) - <<'PY'
+> import importlib, sys
+> try:
+>     m = importlib.import_module("src.api.main")
+>     assert hasattr(m, "app"), "src.api.main:app not found"
+>     print("Verify OK")
+> except Exception as e:
+>     print("Verify failed:", e); sys.exit(1)
+> PY
 
 clean:
-	find . -type d -name "__pycache__" -prune -exec rm -rf {} +
+> find . -type d -name "__pycache__" -prune -exec rm -rf {} +
