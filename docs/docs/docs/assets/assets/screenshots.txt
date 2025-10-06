@@ -1,0 +1,5 @@
+# FILE: assets/screenshots.txt
+(Screenshots to be attached for UI prototype)
+- dashboard_mock.png
+- provenance_log_view.png
+- overlap_result_ui.png
