@@ -1,0 +1,7 @@
+# FILE: .gitignore
+__pycache__/
+*.pyc
+.env
+venv/
+SBOM/checksums.csv
+release/
