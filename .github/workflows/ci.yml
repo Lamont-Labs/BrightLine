@@ -21,6 +21,21 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Ensure requirements.txt exists
+        run: |
+          if [ ! -f requirements.txt ]; then
+            echo "⚠️ requirements.txt missing — generating fallback..."
+            echo "fastapi==0.111.0" > requirements.txt
+            echo "uvicorn==0.30.0" >> requirements.txt
+            echo "pydantic==2.8.2" >> requirements.txt
+            echo "pytest==8.3.2" >> requirements.txt
+            echo "requests==2.32.3" >> requirements.txt
+            echo "aiofiles==24.1.0" >> requirements.txt
+            echo "python-multipart==0.0.9" >> requirements.txt
+            echo "jsonschema==4.22.0" >> requirements.txt
+          fi
+          cat requirements.txt
+
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
