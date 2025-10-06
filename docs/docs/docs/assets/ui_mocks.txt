@@ -1,0 +1,6 @@
+# FILE: assets/ui_mocks.txt
+[Teacher Dashboard]
+- Uploads panel
+- Overlap heatmap
+- Provenance export button
+- Policy view modal
