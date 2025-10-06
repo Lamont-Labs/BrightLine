@@ -7,4 +7,4 @@
    `make demo`
 4. Try a request:  
    ```bash
-   curl -X POST -F "text=Test text here" http://127.0.0.1:8080/submit/text
+curl -X POST -F "text=Test text here" http://127.0.0.1:8080/submit/text
