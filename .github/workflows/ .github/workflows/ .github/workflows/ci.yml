@@ -22,13 +22,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      # --- Option 3: Fallback generator for requirements.txt ---
       - name: Ensure requirements.txt exists
         shell: bash
         run: |
           if [ ! -f requirements.txt ]; then
             echo "⚠️ requirements.txt missing — generating fallback..."
-            cat > requirements.txt <<'REQS'
+            cat <<'REQS' > requirements.txt
 fastapi==0.111.0
 uvicorn==0.30.0
 pydantic==2.8.2
@@ -48,11 +47,10 @@ REQS
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # --- Non-fatal linting so demo continues even with style issues ---
       - name: Lint Markdown & YAML (non-fatal)
         shell: bash
         run: |
-          pip install mdformat yamllint
+          python -m pip install --upgrade mdformat yamllint
           mdformat --check . || echo "⚠️ Markdown lint warnings ignored for demo"
           yamllint . || echo "⚠️ YAML lint warnings ignored for demo"
 
@@ -62,37 +60,43 @@ REQS
         run: |
           pytest -q --tb=short
 
-      - name: Verify Determinism (repo script)
+      - name: Verify Determinism (repo script or fallback)
         shell: bash
         run: |
           if [ -x "./verify.sh" ]; then
             bash ./verify.sh
           else
-            echo "⚠️ verify.sh not executable or missing; creating minimal deterministic check."
+            echo "⚠️ verify.sh missing — creating minimal deterministic artifacts."
             mkdir -p SBOM
-            find . -type f -name "*.py" -o -name "*.md" | sort | xargs sha256sum > SBOM/checksums.csv
-            jq -n --arg v "v2.0" --arg t "$(date -u +%FT%TZ)" '{project:"BrightLine",version:$v,generated_at:$t,commit:"demo-seed"}' > SBOM/provenance.json
+            if command -v sha256sum >/dev/null 2>&1; then SHACMD="sha256sum"; else SHACMD="shasum -a 256"; fi
+            (git ls-files | grep -E '\.(py|md|yml|yaml)$' | sort | xargs $SHACMD) > SBOM/checksums.csv
+            python - <<'PY'
+import json, os, datetime
+os.makedirs("SBOM", exist_ok=True)
+with open("SBOM/provenance.json","w") as f:
+    json.dump({
+        "project": "BrightLine",
+        "version": "v2.0",
+        "generated_at": datetime.datetime.utcnow().isoformat()+"Z",
+        "commit": "demo-seed",
+        "files_hashed": sum(1 for _ in open("SBOM/checksums.csv","r",encoding="utf-8"))
+    }, f, indent=2)
+PY
           fi
 
-      # --- Provenance integrity check: compare to golden if present, else create it ---
       - name: Provenance Integrity Check
         shell: bash
         run: |
           set -e
           mkdir -p SBOM provenance
           if command -v sha256sum >/dev/null 2>&1; then SHACMD="sha256sum"; else SHACMD="shasum -a 256"; fi
-          # Hash a stable set of files for reproducibility
           (git ls-files | grep -E '\.(py|md|yml|yaml)$' | sort | xargs $SHACMD) > SBOM/checksums.csv
-          echo "Computed checksums:"
-          head -n 10 SBOM/checksums.csv || true
-
           GOLD="provenance/golden_checksums.csv"
           if [ -f "$GOLD" ]; then
             echo "Golden checksums found → comparing…"
             diff -u "$GOLD" SBOM/checksums.csv && echo "✅ Checksums match golden."
           else
             echo "⚠️ No golden checksums present; saving current as golden (non-fatal)."
-            mkdir -p provenance
             cp SBOM/checksums.csv "$GOLD"
           fi
 
@@ -114,6 +118,7 @@ REQS
     name: 🔒 Security Scan
     runs-on: ubuntu-latest
     needs: build-and-verify
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
