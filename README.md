@@ -37,3 +37,4 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 make demo
 bash verify.sh
+[![Build & Verify Demo](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml/badge.svg)](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml)
