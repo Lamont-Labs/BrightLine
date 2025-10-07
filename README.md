@@ -1,7 +1,7 @@
 # BrightLine™ — Education AI Compliance Assistant  
 **Version:** v2.0 | **Owner:** Jesse J. Lamont | **Org:** Lamont-Labs  
 **Date:** 2025-10-05 | **Status:** Demo-Ready (CI-Green Build Seed)
-
+[![Build & Verify Demo](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml/badge.svg)](https://github.com/Lamont-Labs/BrightLine/actions/workflows/ci.yml)
 ---
 
 ### 🎯 Mission  
