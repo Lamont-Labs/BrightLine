@@ -17,5 +17,4 @@ It provides educators and institutions a reproducible audit chain instead of opa
 See `docs/ARCHITECTURE.md` for detailed structure.  
 Run the verification script to ensure determinism:
 ```bash
-bash verify.sh
 ![Build & Verify Demo](https://github.com/LamontLabs/BrightLine/actions/workflows/ci.yml/badge.svg)
